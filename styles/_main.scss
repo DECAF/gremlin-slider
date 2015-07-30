@@ -1,0 +1,81 @@
+/*
+gremlin-slider, a slider component for gremlin.js
+*/
+
+.slider {
+  position: relative;
+  white-space: nowrap;
+}
+
+.slider__list {
+  @include resetlist;
+
+  display: inline-block;
+  position: relative;
+  width: 100%;
+
+  .csstransforms3d &,
+  .csstransforms & {
+    transition: transform 380ms $easeOutSine;
+  }
+
+  .slider_state-dragging & {
+    transition: none;
+  }
+}
+
+.slider__item {
+  transform: translateZ(0);
+
+  display: inline-block;
+  vertical-align: top;
+  width: 100%;
+}
+
+.slider__prev,
+.slider__next {
+  @include resetlink;
+  @include font-size(36);
+  transition: opacity 120ms;
+  transform: translateY(-50%);
+
+  top: 50%;
+  color: #666666;
+  position: absolute;
+
+  &:hover {
+    //color: $c-link-green;
+  }
+}
+
+.slider__prev {
+  margin-right: 0.4em;
+  right: 100%;
+}
+
+.slider__next {
+  margin-left: 0.4em;
+  left: 100%;
+}
+
+.slider__prev--state-inactive,
+.slider__next--state-inactive,
+.slot:hover .slider__prev--state-inactive,
+.slot:hover .slider__next--state-inactive {
+  opacity: 0.3;
+
+  color: #666666 !important;
+  cursor: default;
+}
+
+@media print {
+
+  .slider {
+    white-space: normal;
+  }
+
+  .slider__item {
+    //page-break-inside: avoid;
+    //page-break-after: auto;
+  }
+}

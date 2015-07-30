@@ -1,0 +1,36 @@
+{
+  "name": "gremlin-slider",
+  "version": "0.1.0",
+  "description": "a slider component for gremlin.js",
+  "main": "scripts/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://grmlin@github.com/DECAF/gremlin-slider.git"
+  },
+  "keywords": [
+    "gremlins",
+    "gremlin.js"
+  ],
+  "author": "DECAF",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DECAF/gremlin-slider/issues"
+  },
+  "homepage": "https://github.com/DECAF/gremlin-slider#readme",
+  "devDependencies": {
+    "babel": "^5.8.19",
+    "babelify": "^6.1.3",
+    "babel-runtime": "^5.8.19"
+  },
+  "peerDependencies": {
+    "gremlins": "^0.10.0",
+    "gremlins-data": "^0.2.0",
+    "gremlins-dispatcher": "^0.5.0",
+    "gremlins-jquery": "^0.5.1",
+    "jquery": "^2.1.4",
+    "lodash": "^3.10.0"
+  }
+}
