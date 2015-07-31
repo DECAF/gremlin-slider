@@ -31,6 +31,7 @@
     "gremlins-dispatcher": "^0.5.0",
     "gremlins-jquery": "^0.5.1",
     "jquery": "^2.1.4",
-    "lodash": "^3.10.0"
+    "lodash": "^3.10.0",
+    "velocity-animate": "^1.2.2"
   }
 }

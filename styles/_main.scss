@@ -44,7 +44,6 @@ gremlin-slider, a slider component for gremlin.js
   position: absolute;
 
   &:hover {
-    //color: $c-link-green;
   }
 }
 
@@ -59,12 +58,9 @@ gremlin-slider, a slider component for gremlin.js
 }
 
 .slider__prev--state-inactive,
-.slider__next--state-inactive,
-.slot:hover .slider__prev--state-inactive,
-.slot:hover .slider__next--state-inactive {
-  opacity: 0.3;
-
-  color: #666666 !important;
+.slider__next--state-inactive {
+  filter: blur(2px);
+  opacity: 0.2;
   cursor: default;
 }
 
