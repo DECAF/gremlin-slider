@@ -59,8 +59,7 @@ gremlin-slider, a slider component for gremlin.js
 
 .slider__prev--state-inactive,
 .slider__next--state-inactive {
-  filter: blur(2px);
-  opacity: 0.2;
+  opacity: 0.1;
   cursor: default;
 }
 

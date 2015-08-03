@@ -9,6 +9,7 @@ import {EventEmitter} from 'events';
 
 import Pointer from './Pointer';
 import Clock from './Clock';
+import State from './State';
 import Events from '../Events';
 
 const START_INDEX        = 0;
@@ -58,16 +59,18 @@ const GremlinSlider = gremlins.create('gremlin-slider', {
         //
         //this.addResizeListener(this._onResize, this);
         this._prepareList();
+
+        $(window).resize(_.debounce(this._prepareList.bind(this), 150).bind(this));
         //this._startClock();
     },
 
     getListeners(){
-        var name = this.props.name;
-        var events = new Events(this.props.name);
+        this._events = new Events(this.props.name); // TODO this is a perfect mixin, evented or something
+
         return {
-            //[events.getEvent(Events.GREMLIN_SLIDER_CHANGED)]: 'on',
-            [events.getEvent(Events.GREMLIN_SLIDER_NEXT)]: 'onNavigationNext',
-            [events.getEvent(Events.GREMLIN_SLIDER_PREV)]: 'onNavigationPrev',
+            [this._events.getEvent(Events.GREMLIN_SLIDER_NEXT)]: 'onNavigationNext',
+            [this._events.getEvent(Events.GREMLIN_SLIDER_PREV)]: 'onNavigationPrev',
+            [this._events.getEvent(Events.GREMLIN_SLIDER_REQUEST_DATA)]: 'onDataRequest',
         }
     },
 
@@ -141,21 +144,24 @@ const GremlinSlider = gremlins.create('gremlin-slider', {
         //@emit 'SLIDER_SLIDES',
         //     $slider: @$el
 
+        this.emit(this._events.getEvent(Events.GREMLIN_SLIDER_CHANGED), new State(this._pointer));
+
         this._moveList(offset);
     },
 
     _moveList(deltaX){
         var slidesEl = this.$slides[0];
         velocity(slidesEl, 'stop');
-        velocity(slidesEl, {marginLeft: deltaX}, 120);
+        velocity(slidesEl, {
+            translateZ: 0, // Force HA by animating a 3D property
+            translateX: deltaX
+        },'easeInSine', 320);
     },
 
 
     onDataRequest({handler, name}){
         if (name === this.props.name) {
-            handler({
-                pointer: this._pointer
-            })
+            handler(new State(this._pointer));
         }
     },
 
