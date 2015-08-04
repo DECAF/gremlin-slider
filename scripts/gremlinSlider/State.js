@@ -1,5 +1,5 @@
 class State {
-    constructor(pointer){
+    constructor(pointer, itemsPerPage){
         this._pointer = pointer;
     }
 
@@ -13,6 +13,10 @@ class State {
 
     get length(){
         return this._pointer.length;
+    }
+
+    get isInfinite(){
+        return this._pointer.isInfinite;
     }
 }
 

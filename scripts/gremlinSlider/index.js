@@ -41,13 +41,13 @@ const GremlinSlider = gremlins.create('gremlin-slider', {
         //this.isAuto         = this.data.slideshowAuto === true;
         //this._hasNavigation = this._$navigation.length > 0;
         //
-        this.interval = this.data.slideshowInterval || DEFAULT_INTERVAL;
+        //this.interval = this.data.slideshowInterval || DEFAULT_INTERVAL;
         //this._sliderId = this.data.sliderId || NO_ID;
-        this._clock = new Clock(this.interval, this._onClockTick.bind(this));
+        //this._clock = new Clock(this.interval, this._onClockTick.bind(this));
         //
         //this._navigation = this._hasNavigation ? new Navigation(this._$navigation) : NO_NAV;
         //
-        this._clock.handleTick = this._onClockTick;
+        //this._clock.handleTick = this._onClockTick;
         //
         //if (this._navigation !== NO_NAV) {
         //    this._navigation.onNavigationClicked = this._onNavigationClicked;
@@ -97,41 +97,13 @@ const GremlinSlider = gremlins.create('gremlin-slider', {
         var times = Math.ceil(this.$items.length / elementsPerPage);
         console.log('slider has', times, 'pages')
 
-        this._pointer = new Pointer(times, START_INDEX);
-        //
-        //
-        //for item in @_$items
-        //    width = item.offsetWidth
-        //left = item.offsetLeft
-        //rightOffset = left + width
-        //
-        //#console.log 'slider item found: ', width, left, rightOffset
-        //if rightOffset <= containerWidth
-        //    elementsPerPage += 1
-        //else
-        //    break
-        //
-        //times = Math.ceil(@_$items.length / elementsPerPage)
-        //
-        //
-        //
-        //@_dragStartIndex = START_INDEX
-        //@_index = new Index times, START_INDEX
-        //
-        //@_$prev.toggle times > 1
-        //@_$next.toggle times > 1
-        //@_navigation?.updateNavigation times
-
+        this._pointer = new Pointer(times, START_INDEX, this.props.infinite);
 
         var distance        = parseInt(this.$items.eq(1).css('margin-left'), 10);
         this._itemDistance  = isNaN(distance) ? 0 : distance;
         this._moveOffset    = containerWidth;
         this._currentOffset = 0
         this._itemsPerPage  = elementsPerPage;
-        //
-        //    #console?.info "#{elementsPerPage} items per page, and #{@_$items.length} items in total, so we have #{times} slides in total. Distance is #{@_itemDistance}"
-        //
-        //    #console.log "the items have a total width of #{listWidth}px, the container is #{containerWidth}px wide, will slide #{times} times"
         this._refreshList()
     },
 
@@ -139,10 +111,6 @@ const GremlinSlider = gremlins.create('gremlin-slider', {
         var currentPage     = this._pointer.position;
         var offset          = currentPage === START_INDEX ? 0 : -( (this._moveOffset * currentPage) + (this._itemDistance * currentPage))
         this._currentOffset = offset;
-
-        //@_updateNav currentPage
-        //@emit 'SLIDER_SLIDES',
-        //     $slider: @$el
 
         this.emit(this._events.getEvent(Events.GREMLIN_SLIDER_CHANGED), new State(this._pointer));
 
@@ -153,7 +121,6 @@ const GremlinSlider = gremlins.create('gremlin-slider', {
         var slidesEl = this.$slides[0];
         velocity(slidesEl, 'stop');
         velocity(slidesEl, {
-            translateZ: 0, // Force HA by animating a 3D property
             translateX: deltaX
         },'easeInSine', 320);
     },
