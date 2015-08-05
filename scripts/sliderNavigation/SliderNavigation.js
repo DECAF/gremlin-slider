@@ -14,7 +14,7 @@ const SliderNavigation = gremlins.create('slider-navigation', {
     mixins: [gremlinsJquery, data, dispatcher],
     events: {
         'click [data-hook="next"]': 'onNextClick',
-        'click [data-hook="prev"]': 'onPrevClick',
+        'click [data-hook="prev"]': 'onPrevClick'
     },
     elements: {
         '[data-hook="next"]': '_$next',
@@ -22,8 +22,7 @@ const SliderNavigation = gremlins.create('slider-navigation', {
     },
     initialize() {
         this.emit(this._events.getEvent(Events.GREMLIN_SLIDER_REQUEST_DATA), {
-            handler: this.onSliderRequest.bind(this),
-            name: this.props.for
+            handler: this.onSliderRequest.bind(this)
         });
     },
     getListeners(){
@@ -34,14 +33,13 @@ const SliderNavigation = gremlins.create('slider-navigation', {
         }
     },
     onSliderRequest(state) {
-        //console.log('sliderNavigation: slider request completed', state)
         this.updateState(state);
     },
     onSliderChanged(state) {
-        //console.log('sliderNavigation: slider changed', state)
         this.updateState(state);
     },
     onNextClick(){
+        console.log('click')
         this.emit(this._events.getEvent(Events.GREMLIN_SLIDER_NEXT));
     },
     onPrevClick(){

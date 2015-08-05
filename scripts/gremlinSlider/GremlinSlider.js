@@ -32,11 +32,6 @@ const GremlinSlider = gremlins.create('gremlin-slider', {
         '[data-slider-navigation]': '$navigation'
     },
 
-    events: {
-        'slider-navigation:next': 'onNavigationNext',
-        'slider-navigation:prev': 'onNavigationPrev'
-    },
-
     initialize() {
         //this.isAuto         = this.data.slideshowAuto === true;
         //this._hasNavigation = this._$navigation.length > 0;
@@ -83,7 +78,7 @@ const GremlinSlider = gremlins.create('gremlin-slider', {
             let width       = item.offsetWidth;
             let left        = item.offsetLeft;
             let rightOffset = left + width;
-            console.log('slider item found: ', width, left, rightOffset)
+            //console.log('slider item found: ', width, left, rightOffset)
             if (rightOffset <= containerWidth) {
                 elementsPerPage += 1;
             } else {
@@ -95,7 +90,7 @@ const GremlinSlider = gremlins.create('gremlin-slider', {
         });
 
         var times = Math.ceil(this.$items.length / elementsPerPage);
-        console.log('slider has', times, 'pages')
+        //console.log('slider has', times, 'pages')
 
         this._pointer = new Pointer(times, START_INDEX, this.props.infinite);
 
@@ -108,6 +103,7 @@ const GremlinSlider = gremlins.create('gremlin-slider', {
     },
 
     _refreshList(){
+        //console.log('refresh list')
         var currentPage     = this._pointer.position;
         var offset          = currentPage === START_INDEX ? 0 : -( (this._moveOffset * currentPage) + (this._itemDistance * currentPage))
         this._currentOffset = offset;
@@ -118,18 +114,20 @@ const GremlinSlider = gremlins.create('gremlin-slider', {
     },
 
     _moveList(deltaX){
+        //console.log('move list')
         var slidesEl = this.$slides[0];
-        velocity(slidesEl, 'stop');
-        velocity(slidesEl, {
-            translateX: deltaX
-        },'easeInSine', 320);
+        this.$slides.css({
+            transform: `translate3d(${deltaX.toString()}px, 0px, 0px)`
+        })
+        //velocity(slidesEl, 'stop', true);
+        //velocity(slidesEl, {
+        //    translateX: deltaX
+        //}, 'easeInSine', 320);
     },
 
 
     onDataRequest({handler, name}){
-        if (name === this.props.name) {
-            handler(new State(this._pointer));
-        }
+        handler(new State(this._pointer));
     },
 
     onNavigationNext(){

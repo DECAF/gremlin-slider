@@ -1,0 +1,7 @@
+<div class="slider-folio__wrapper">
+
+    <span class="slider-folio__num slider-folio__num--current">{{ currentPage }}</span>
+    <span class="slider-folio__delimiter"></span>
+    <span class="slider-folio__num slider-folio__num--total">{{ length }}</span>
+
+</div>
