@@ -137,7 +137,7 @@ const GremlinSlider = gremlins.create('gremlin-slider', {
         velocity(slidesEl, 'stop', true);
         velocity(slidesEl, {
             translateX: deltaX
-        }, 'easeInSine', 320);
+        }, 'easeInSine', this.el.offsetWidth/100*30);
     },
 
 

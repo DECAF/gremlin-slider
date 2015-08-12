@@ -7,16 +7,16 @@ class State {
         this._itemsPerPage = itemsPerPage;
 
 
-        console.log(`New slider state:
-
-- position (0-based): ${this._pointer.position}
-- pages total   :     ${this._pointer.length}
-- items in total:     ${this._itemsTotal}
-- items per page:     ${this._itemsPerPage}
-- first (0-based):    ${this.firstVisible}
-- last (0-based):     ${this.lastVisible}
-- isAscending:        ${this.isAscending}
-- active:             ${this.visibleItems}`);
+//        console.log(`New slider state:
+//
+//- position (0-based): ${this._pointer.position}
+//- pages total   :     ${this._pointer.length}
+//- items in total:     ${this._itemsTotal}
+//- items per page:     ${this._itemsPerPage}
+//- first (0-based):    ${this.firstVisible}
+//- last (0-based):     ${this.lastVisible}
+//- isAscending:        ${this.isAscending}
+//- active:             ${this.visibleItems}`);
     }
 
     get hasMore() {

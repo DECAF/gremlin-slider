@@ -12,10 +12,8 @@ const EVENT_PREV = 'slider-navigation:prev';
 
 const Slide = gremlins.create('slider-slide', {
     mixins: [gremlinsJquery, data, dispatcher],
-    events: {
-    },
-    elements: {
-    },
+    events: {},
+    elements: {},
     initialize() {
         this.updateState();
     },
@@ -39,14 +37,16 @@ const Slide = gremlins.create('slider-slide', {
         //this.updateState(state);
     },
     updateState(){
-        this.$el.toggleClass('slide--ascending', this.props.ascending);
         this.$el.addClass('slide--change-direction');
+        this.$el.toggleClass('slide--ascending', this.props.ascending);
 
         // first change the direction so the css is able to do things first
-        setTimeout(()=>{
+        setTimeout(()=> {
             this.$el.removeClass('slide--change-direction');
-            this.$el.toggleClass('slide--active', this.props.active);
-        },10);
+            setTimeout(()=> {
+                this.$el.toggleClass('slide--active', this.props.active);
+            }, 10);
+        }, 10);
     }
 });
 

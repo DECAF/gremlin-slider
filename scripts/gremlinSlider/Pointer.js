@@ -56,7 +56,6 @@ class Pointer {
     }
 
     get isAscending(){
-        console.log(this._position, this._lastPosition)
         return this._position > this._lastPosition;
     }
 

@@ -39,7 +39,6 @@ const SliderNavigation = gremlins.create('slider-navigation', {
         this.updateState(state);
     },
     onNextClick(){
-        console.log('click')
         this.emit(this._events.getEvent(Events.GREMLIN_SLIDER_NEXT));
     },
     onPrevClick(){
