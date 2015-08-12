@@ -7,7 +7,6 @@ class Pointer {
     constructor(length, startIndex, isInfinite = false) {
         this._length     = length;
         this._position   = startIndex;
-        this._last       = startIndex;
         this._isInfinite = isInfinite;
     }
 
@@ -28,7 +27,7 @@ class Pointer {
     }
 
     set _position(position) {
-        this._last = this._pos || position;
+        this._lastPosition = this._pos === undefined ? position : this._pos;
         this._pos  = position;
     }
 
@@ -54,6 +53,11 @@ class Pointer {
 
     get isInfinite() {
         return this._isInfinite;
+    }
+
+    get isAscending(){
+        console.log(this._position, this._lastPosition)
+        return this._position > this._lastPosition;
     }
 
     gotoPosition(position) {

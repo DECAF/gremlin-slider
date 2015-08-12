@@ -7,6 +7,10 @@ gremlin-slider, a slider component for gremlin.js
   white-space: nowrap;
 }
 
+.slider__content {
+  overflow: hidden;
+}
+
 .slider__list {
   @include resetlist;
 
@@ -27,7 +31,7 @@ gremlin-slider, a slider component for gremlin.js
 .slider__prev,
 .slider__next {
   @include resetlink;
-  @include font-size(36);
+  //@include font-size(36);
   cursor: pointer;
   transition: opacity 120ms;
   transform: translateY(-50%);

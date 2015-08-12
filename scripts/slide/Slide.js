@@ -17,27 +17,36 @@ const Slide = gremlins.create('slider-slide', {
     elements: {
     },
     initialize() {
-        this.emit(this._events.getEvent(Events.GREMLIN_SLIDER_REQUEST_DATA), {
-            handler: this.onSliderRequest.bind(this),
-            name: this.props.for
-        });
+        this.updateState();
+    },
+    attributeDidChange(name, previousValue, value) {
+        if (name === 'class') {
+            return false;
+        }
+        this.updateState();
     },
     getListeners(){
-        this._events = new Events(this.props.for);
-
-        return {
-            [this._events.getEvent(Events.GREMLIN_SLIDER_CHANGED)]: 'onSliderChanged'
-        }
+        //this._events = new Events(this.props.for);
+        //
+        //return {
+        //    [this._events.getEvent(Events.GREMLIN_SLIDER_CHANGED)]: 'onSliderChanged'
+        //}
     },
     onSliderRequest(state) {
-        this.updateState(state);
+        //this.updateState(state);
     },
     onSliderChanged(state) {
-        this.updateState(state);
+        //this.updateState(state);
     },
-    updateState(state){
-        this._$next.toggleClass('slider__next--state-inactive', !state.hasMore);
-        this._$prev.toggleClass('slider__prev--state-inactive', !state.hasLess);
+    updateState(){
+        this.$el.toggleClass('slide--ascending', this.props.ascending);
+        this.$el.addClass('slide--change-direction');
+
+        // first change the direction so the css is able to do things first
+        setTimeout(()=>{
+            this.$el.removeClass('slide--change-direction');
+            this.$el.toggleClass('slide--active', this.props.active);
+        },10);
     }
 });
 

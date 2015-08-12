@@ -46,8 +46,8 @@ const SliderNavigation = gremlins.create('slider-navigation', {
         this.emit(this._events.getEvent(Events.GREMLIN_SLIDER_PREV));
     },
     updateState(state){
-        this._$next.toggleClass('slider__next--state-inactive', !state.hasMore && !state.isInfinite);
-        this._$prev.toggleClass('slider__prev--state-inactive', !state.hasLess && !state.isInfinite);
+        this._$next.toggleClass('slider__next--state-inactive', !state.canGoForward);
+        this._$prev.toggleClass('slider__prev--state-inactive', !state.canGoBack);
     }
 });
 

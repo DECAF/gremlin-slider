@@ -27,9 +27,10 @@ const GremlinSlider = gremlins.create('gremlin-slider', {
 
     elements: {
         '[data-hook="container"]': '$container',
-        '[data-hook="slides"]': '$slides',
+        '[data-hook="slides"]': '$slidesList',
         '[data-hook="slides"] > li': '$items',
-        '[data-slider-navigation]': '$navigation'
+        '[data-slider-navigation]': '$navigation',
+        '[slide]': '$slides'
     },
 
     initialize() {
@@ -69,6 +70,10 @@ const GremlinSlider = gremlins.create('gremlin-slider', {
         }
     },
 
+    _getState(){
+        return new State(this._pointer, this.$items.length, this._itemsPerPage);
+    },
+
     _prepareList(){
         var listWidth       = _.sum(this.$items.toArray().map(item=>$(item).outerWidth(WIDTH_WITH_MARGINS)));
         var containerWidth  = this.$container.width();
@@ -104,30 +109,40 @@ const GremlinSlider = gremlins.create('gremlin-slider', {
 
     _refreshList(){
         //console.log('refresh list')
-        var currentPage     = this._pointer.position;
-        var offset          = currentPage === START_INDEX ? 0 : -( (this._moveOffset * currentPage) + (this._itemDistance * currentPage))
+        var currentPage = this._pointer.position;
+        var offset      = currentPage === START_INDEX ? 0 : -( (this._moveOffset * currentPage) + (this._itemDistance * currentPage))
+        var state       = this._getState();
+
         this._currentOffset = offset;
 
-        this.emit(this._events.getEvent(Events.GREMLIN_SLIDER_CHANGED), new State(this._pointer));
+        this.$slides.each((index, el) => {
+            let isActive = state.isActiveSlide(index);
+            el.setAttribute('ascending', state.isAscending);
+            el.setAttribute('active', isActive);
+        });
+        this.$slides.slice(state.firstVisible, state.lastVisible + 1).each((index, el) => {
+        });
+        this.emit(this._events.getEvent(Events.GREMLIN_SLIDER_CHANGED), state);
 
         this._moveList(offset);
     },
 
     _moveList(deltaX){
         //console.log('move list')
-        var slidesEl = this.$slides[0];
-        this.$slides.css({
-            transform: `translate3d(${deltaX.toString()}px, 0px, 0px)`
-        })
-        //velocity(slidesEl, 'stop', true);
-        //velocity(slidesEl, {
-        //    translateX: deltaX
-        //}, 'easeInSine', 320);
+        var slidesEl = this.$slidesList[0];
+
+        //this.$slidesList.css({
+        //    transform: `translate3d(${deltaX.toString()}px, 0px, 0px)`
+        //})
+        velocity(slidesEl, 'stop', true);
+        velocity(slidesEl, {
+            translateX: deltaX
+        }, 'easeInSine', 320);
     },
 
 
     onDataRequest({handler, name}){
-        handler(new State(this._pointer));
+        handler(this._getState());
     },
 
     onNavigationNext(){
