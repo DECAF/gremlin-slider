@@ -27,7 +27,7 @@
     "nunjucks": "^1.3.4",
     "nunjucksify": "^0.2.2"
   },
-  "peerDependencies": {
+  "dependencies": {
     "gremlins": "^0.10.0",
     "gremlins-data": "^0.2.0",
     "gremlins-dispatcher": "^0.5.0",
