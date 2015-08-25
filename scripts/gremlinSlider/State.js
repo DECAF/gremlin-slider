@@ -56,8 +56,7 @@ class State {
         var firstVisible = (this._pointer.position * this._itemsPerPage) + 1;
         var lastVisible  = (this._pointer.position + 1) * this._itemsPerPage;
 
-        console.log(`- first: ${firstVisible}
-- last: ${lastVisible}`)
+        console.log(`- first: ${firstVisible}- last: ${lastVisible}`)
         _.times(this._itemsTotal, index => {
             let current = index + 1;
 

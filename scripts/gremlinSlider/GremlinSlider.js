@@ -54,6 +54,7 @@ const GremlinSlider = gremlins.create('gremlin-slider', {
         //this._isFocused = no;
         //
         //this.addResizeListener(this._onResize, this);
+        this._currentDelta = 0;
         this._prepareList();
 
         $(window).resize(_.debounce(this._prepareList.bind(this), 150).bind(this));
@@ -128,16 +129,16 @@ const GremlinSlider = gremlins.create('gremlin-slider', {
     },
 
     _moveList(deltaX){
-        //console.log('move list')
+        var offset   = this._currentDelta - deltaX;
+        var distance = Math.max(offset, -offset);
         var slidesEl = this.$slidesList[0];
+        var duration = Math.max(distance / 100 * 40, 450);
+        this._currentDelta = deltaX;
 
-        //this.$slidesList.css({
-        //    transform: `translate3d(${deltaX.toString()}px, 0px, 0px)`
-        //})
         velocity(slidesEl, 'stop', true);
         velocity(slidesEl, {
             translateX: deltaX
-        }, 'easeInSine', this.el.offsetWidth/100*30);
+        }, 'easeInSine', duration);
     },
 
 
