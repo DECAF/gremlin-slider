@@ -37,9 +37,18 @@
     "velocity-animate": "^1.2.2"
   },
   "browserify": {
-    "transform": ["babelify", {
-      "optional": ["es7.classProperties"]
-    }, "nunjucksify"]
+    "transform": [
+      [
+        "babelify",
+        {
+          "optional": [
+            "es7.classProperties",
+            "runtime"
+          ]
+        }
+      ],
+      "nunjucksify"
+    ]
   },
   "browser": {
     "nunjucks": "nunjucks/browser/nunjucks-slim"
