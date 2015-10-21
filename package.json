@@ -28,7 +28,7 @@
     "nunjucksify": "^0.2.2"
   },
   "dependencies": {
-    "gremlins": "^0.11.1",
+    "gremlins": "^0.11.2",
     "gremlins-data": "^0.3.0",
     "gremlins-dispatcher": "^0.6.0",
     "gremlins-jquery": "^0.5.2",
