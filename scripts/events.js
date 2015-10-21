@@ -6,6 +6,7 @@ export default class Events {
     static GREMLIN_SLIDER_REQUEST_DATA = 'GREMLIN_SLIDER_REQUEST_DATA';
     static GREMLIN_SLIDER_NEXT         = 'GREMLIN_SLIDER_NEXT';
     static GREMLIN_SLIDER_PREV         = 'GREMLIN_SLIDER_PREV';
+    static GREMLIN_SLIDER_GOTO         = 'GREMLIN_SLIDER_GOTO';
 
     constructor(id) {
         this._id = id;
