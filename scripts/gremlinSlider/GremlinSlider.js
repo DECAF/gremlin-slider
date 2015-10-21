@@ -67,6 +67,7 @@ const GremlinSlider = gremlins.create('gremlin-slider', {
         return {
             [this._events.getEvent(Events.GREMLIN_SLIDER_NEXT)]: 'onNavigationNext',
             [this._events.getEvent(Events.GREMLIN_SLIDER_PREV)]: 'onNavigationPrev',
+            [this._events.getEvent(Events.GREMLIN_SLIDER_GOTO)]: 'onNavigationGoto',
             [this._events.getEvent(Events.GREMLIN_SLIDER_REQUEST_DATA)]: 'onDataRequest',
         }
     },
@@ -132,7 +133,7 @@ const GremlinSlider = gremlins.create('gremlin-slider', {
         var offset   = this._currentDelta - deltaX;
         var distance = Math.max(offset, -offset);
         var slidesEl = this.$slidesList[0];
-        var duration = Math.max(distance / 100 * 40, 450);
+        var duration = _.isNumber(this.props.duration) ? this.props.duration : Math.max(distance / 100 * 40, 450);
         this._currentDelta = deltaX;
 
         velocity(slidesEl, 'stop', true);
@@ -154,6 +155,11 @@ const GremlinSlider = gremlins.create('gremlin-slider', {
     onNavigationPrev() {
         //this._stopClock()
         this._pointer.prev();
+        this._refreshList();
+    },
+    onNavigationGoto(index) {
+        console.log(index)
+        this._pointer.gotoPosition(index);
         this._refreshList();
     },
     _onClockTick(){
