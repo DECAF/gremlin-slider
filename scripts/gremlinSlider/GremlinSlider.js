@@ -158,7 +158,6 @@ const GremlinSlider = gremlins.create('gremlin-slider', {
         this._refreshList();
     },
     onNavigationGoto(index) {
-        console.log(index)
         this._pointer.gotoPosition(index);
         this._refreshList();
     },
