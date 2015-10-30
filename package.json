@@ -1,6 +1,6 @@
 {
   "name": "gremlin-slider",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "a slider component for gremlin.js",
   "main": "scripts/index.js",
   "scripts": {

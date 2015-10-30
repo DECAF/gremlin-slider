@@ -12,15 +12,45 @@ import Clock from './Clock';
 import State from './State';
 import Events from '../Events';
 
-const START_INDEX        = 0;
-const DEFAULT_INTERVAL   = 5000;
+const START_INDEX = 0;
+const DEFAULT_INTERVAL = 5000;
 const WIDTH_WITH_MARGINS = true;
-const NO_DRAG            = 0;
-const NO_ID              = null;
-const CSS_DRAGGING       = 'slider_state-dragging';
-const CSS_PREV_INACTIVE  = 'slider__prev--state-inactive';
-const CSS_NEXT_INACTIVE  = 'slider__next--state-inactive';
-const NO_NAV             = null;
+const NO_DRAG = 0;
+const NO_ID = null;
+const CSS_DRAGGING = 'slider_state-dragging';
+const CSS_PREV_INACTIVE = 'slider__prev--state-inactive';
+const CSS_NEXT_INACTIVE = 'slider__next--state-inactive';
+const NO_NAV = null;
+
+const has3d = function () {
+    if (!window.getComputedStyle) {
+        return false;
+    }
+
+    var el = document.createElement('p'),
+        has3d,
+        transforms = {
+            'webkitTransform': '-webkit-transform',
+            'OTransform': '-o-transform',
+            'msTransform': '-ms-transform',
+            'MozTransform': '-moz-transform',
+            'transform': 'transform'
+        };
+
+    // Add it to the body to get the computed style
+    document.body.insertBefore(el, null);
+
+    for (var t in transforms) {
+        if (el.style[t] !== undefined) {
+            el.style[t] = 'translate3d(1px,1px,1px)';
+            has3d = window.getComputedStyle(el).getPropertyValue(transforms[t]);
+        }
+    }
+
+    document.body.removeChild(el);
+
+    return (has3d !== undefined && has3d.length > 0 && has3d !== "none");
+}
 
 const GremlinSlider = gremlins.create('gremlin-slider', {
     mixins: [gremlinsJquery, data, dispatcher],
@@ -77,13 +107,13 @@ const GremlinSlider = gremlins.create('gremlin-slider', {
     },
 
     _prepareList(){
-        var listWidth       = _.sum(this.$items.toArray().map(item=>$(item).outerWidth(WIDTH_WITH_MARGINS)));
-        var containerWidth  = this.$container.width();
+        var listWidth = _.sum(this.$items.toArray().map(item=>$(item).outerWidth(WIDTH_WITH_MARGINS)));
+        var containerWidth = this.$container.width();
         var elementsPerPage = 0;
 
         this.$items.each((index, item) => {
-            let width       = item.offsetWidth;
-            let left        = item.offsetLeft;
+            let width = item.offsetWidth;
+            let left = item.offsetLeft;
             let rightOffset = left + width;
             //console.log('slider item found: ', width, left, rightOffset)
             if (rightOffset <= containerWidth) {
@@ -101,19 +131,19 @@ const GremlinSlider = gremlins.create('gremlin-slider', {
 
         this._pointer = new Pointer(times, START_INDEX, this.props.infinite);
 
-        var distance        = parseInt(this.$items.eq(1).css('margin-left'), 10);
-        this._itemDistance  = isNaN(distance) ? 0 : distance;
-        this._moveOffset    = containerWidth;
+        var distance = parseInt(this.$items.eq(1).css('margin-left'), 10);
+        this._itemDistance = isNaN(distance) ? 0 : distance;
+        this._moveOffset = containerWidth;
         this._currentOffset = 0
-        this._itemsPerPage  = elementsPerPage;
+        this._itemsPerPage = elementsPerPage;
         this._refreshList()
     },
 
     _refreshList(){
         //console.log('refresh list')
         var currentPage = this._pointer.position;
-        var offset      = currentPage === START_INDEX ? 0 : -( (this._moveOffset * currentPage) + (this._itemDistance * currentPage))
-        var state       = this._getState();
+        var offset = currentPage === START_INDEX ? 0 : -( (this._moveOffset * currentPage) + (this._itemDistance * currentPage))
+        var state = this._getState();
 
         this._currentOffset = offset;
 
@@ -130,16 +160,24 @@ const GremlinSlider = gremlins.create('gremlin-slider', {
     },
 
     _moveList(deltaX){
-        var offset   = this._currentDelta - deltaX;
+        var offset = this._currentDelta - deltaX;
         var distance = Math.max(offset, -offset);
         var slidesEl = this.$slidesList[0];
         var duration = _.isNumber(this.props.duration) ? this.props.duration : Math.max(distance / 100 * 40, 450);
         this._currentDelta = deltaX;
 
-        velocity(slidesEl, 'stop', true);
-        velocity(slidesEl, {
-            translateX: deltaX
-        }, 'easeInSine', duration);
+        if (this.props.useCss) {
+            this.$slidesList.css({
+                transform: has3d() ? `translate3d(${deltaX}px, 0, 0)` : `translateX(${deltaX}px)`
+            });
+        } else {
+            velocity(slidesEl, 'stop', true);
+            velocity(slidesEl, {
+                translateX: deltaX
+            }, 'easeInSine', duration);
+        }
+
+
     },
 
 
